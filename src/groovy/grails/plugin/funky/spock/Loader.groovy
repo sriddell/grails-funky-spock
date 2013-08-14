@@ -17,7 +17,7 @@
 
  class Loader {
 
-    static addTestTypeIfNeeded(def phases, def binding, def testType) {
+    static void addTestTypeIfNeeded(phases, binding, testType) {
         if (phases.contains('functional')) {
             if (!binding.variables.functionalTests.any {(it in testType) && it.name == 'spock' && it.relativeSourcePath == 'functional'}) {
                 binding.variables.functionalTests << testType.newInstance('spock', 'functional')
@@ -25,3 +25,4 @@
         }
     }
  }
+ 
