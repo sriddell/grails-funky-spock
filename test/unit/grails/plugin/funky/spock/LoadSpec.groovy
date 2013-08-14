@@ -19,42 +19,37 @@ import grails.plugin.spock.test.GrailsSpecTestType
 import spock.lang.Specification
 
 class LoadSpec extends Specification {
-    private Map binding
-
-    def setup() {
-        binding = [variables: [functionalTests:[]]]
-    }
+    private Map binding = [variables: [functionalTests:[]]]
 
     def "Test no type added without functional phase"() {
         when:
-        Loader.addTestTypeIfNeeded(['unit'], binding, GrailsSpecTestType.class)
+        Loader.addTestTypeIfNeeded(['unit'], binding, GrailsSpecTestType)
 
         then:
         0 == binding.variables.functionalTests.size()
     }
 
-
     def "Test type is added in functional phase"() {
         when:
-        Loader.addTestTypeIfNeeded(['functional'], binding, GrailsSpecTestType.class)
+        Loader.addTestTypeIfNeeded(['functional'], binding, GrailsSpecTestType)
 
         then:
         1                        == binding.variables.functionalTests.size()
         'spock'                  == binding.variables.functionalTests[0].name
         'functional'             == binding.variables.functionalTests[0].relativeSourcePath
-        GrailsSpecTestType.class == binding.variables.functionalTests[0].getClass()
+        GrailsSpecTestType       == binding.variables.functionalTests[0].getClass()
     }
 
     def "Test type is only added once"() {
         when:
-        Loader.addTestTypeIfNeeded(['functional'], binding, GrailsSpecTestType.class)
-        Loader.addTestTypeIfNeeded(['functional'], binding, GrailsSpecTestType.class)
+        Loader.addTestTypeIfNeeded(['functional'], binding, GrailsSpecTestType)
+        Loader.addTestTypeIfNeeded(['functional'], binding, GrailsSpecTestType)
 
         then:
         1                        == binding.variables.functionalTests.size()
         'spock'                  == binding.variables.functionalTests[0].name
         'functional'             == binding.variables.functionalTests[0].relativeSourcePath
-        GrailsSpecTestType.class == binding.variables.functionalTests[0].getClass()
+        GrailsSpecTestType       == binding.variables.functionalTests[0].getClass()
     }
 
     def "Test that other GrailsSpecTestType instances can be used"() {
@@ -62,12 +57,12 @@ class LoadSpec extends Specification {
         binding.variables = [functionalTests:[new GrailsSpecTestType('spock-somethingelse','somethingelse')]]
 
         when:
-        Loader.addTestTypeIfNeeded(['functional'], binding, GrailsSpecTestType.class)
+        Loader.addTestTypeIfNeeded(['functional'], binding, GrailsSpecTestType)
 
         then:
         2                        == binding.variables.functionalTests.size()
         'spock'                  == binding.variables.functionalTests[1].name
         'functional'             == binding.variables.functionalTests[1].relativeSourcePath
-        GrailsSpecTestType.class == binding.variables.functionalTests[1].getClass()
+        GrailsSpecTestType       == binding.variables.functionalTests[1].getClass()
     }
 }
