@@ -1,6 +1,6 @@
 #grails-funky-spock
 
-Grails plugin to add spock test type to functional test phase, requiring only test dependency.
+Grails plugin to add spock test type to functional test phase.
 
 ##Installation
 
@@ -15,6 +15,7 @@ For example, if using Grails 2.2:
   dependencies {
     test "org.spockframework:spock-grails-support:0.7-groovy-2.0"
   }
+
   plugins {
     test(":spock:0.7") {
       exclude "spock-grails-support"
@@ -23,7 +24,7 @@ For example, if using Grails 2.2:
     test ":funky-spock:0.1"
   }
 
-  ##Running tests
+##Running tests
 
     grails test-app functional:spock
 
