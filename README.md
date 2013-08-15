@@ -21,7 +21,7 @@ plugins {
     exclude "spock-grails-support"
 }
 
-test ":funky-spock:0.1"
+test ":funky-spock:0.1.0"
 ```
 
 ##Running tests
