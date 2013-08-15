@@ -6,7 +6,7 @@ Grails plugin to add spock test type to functional test phase.
 
 For grails-2 add the following line to the plugins section of your BuildConfig.groovy
 
-    test ":funky-spock:0.1"
+    test ":funky-spock:0.1.0"
 
 Follow the Spock Plugin [instructions](http://grails.org/plugin/spock) to install it and its dependencies.
 
