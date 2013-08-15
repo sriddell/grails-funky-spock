@@ -11,18 +11,18 @@ For grails-2 add the following line to the plugins section of your BuildConfig.g
 Follow the Spock Plugin [instructions](http://grails.org/plugin/spock) to install it and its dependencies.
 
 For example, if using Grails 2.2:
+```
+dependencies {
+  test "org.spockframework:spock-grails-support:0.7-groovy-2.0"
+}
 
-  dependencies {
-    test "org.spockframework:spock-grails-support:0.7-groovy-2.0"
-  }
+plugins {
+  test(":spock:0.7") {
+    exclude "spock-grails-support"
+}
 
-  plugins {
-    test(":spock:0.7") {
-      exclude "spock-grails-support"
-    }
-
-    test ":funky-spock:0.1"
-  }
+test ":funky-spock:0.1"
+```
 
 ##Running tests
 
