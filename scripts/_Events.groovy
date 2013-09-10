@@ -17,9 +17,18 @@
 includeTargets << grailsScript ("_GrailsCompile")
 
 eventTestPhasesStart = { phases ->
-    def testType    = loadClass('grails.plugin.spock.test.GrailsSpecTestType')
+    //look for the test type in grails 2.3 first, then for the one in the spock plugin
+    types = ['org.codehaus.groovy.grails.test.spock.GrailsSpecTestType','grails.plugin.spock.test.GrailsSpecTestType']
+    def testClazz = null
+    for (String className:types) {
+        testClazz = loadClass(className)
+        if (testClazz != null) break
+    }
+    if (null == testClazz) {
+        throw new Exception("funky-spock could not find any spock test types; looked for " + types)
+    }
     def loaderClazz = loadClass('grails.plugin.funky.spock.Loader')
-    loaderClazz.addTestTypeIfNeeded(phases, binding, testType)
+    loaderClazz.addTestTypeIfNeeded(phases, binding, testClazz)
 }
 
 
@@ -31,10 +40,13 @@ loadClass = { className ->
         classLoader.loadClass(name)
     }
     try {
-        load (className)
+        load(className)
     } catch (ClassNotFoundException ignored) {
         compile()
-        load(className)
+        try {
+            load(className)
+        } catch (ClassNotFoundException e) {
+        }
     }
 }
 
