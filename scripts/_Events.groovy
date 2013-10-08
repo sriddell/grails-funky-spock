@@ -13,8 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import org.codehaus.groovy.grails.compiler.GrailsProjectCompiler
 
-includeTargets << grailsScript ("_GrailsCompile")
+projectCompiler = new GrailsProjectCompiler(pluginSettings)
+projectCompiler.configureClasspath()
 
 eventTestPhasesStart = { phases ->
     //look for the test type in grails 2.3 first, then for the one in the spock plugin
@@ -42,7 +44,7 @@ loadClass = { className ->
     try {
         load(className)
     } catch (ClassNotFoundException ignored) {
-        compile()
+        projectCompiler.compileAll()
         try {
             load(className)
         } catch (ClassNotFoundException e) {
